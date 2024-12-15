@@ -6,8 +6,6 @@ import pandas as pd # type: ignore
 from pycaret.clustering import load_model, predict_model  # type: ignore
 import plotly.express as px  # type: ignore
 
-st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon=None, theme={'base': 'dark'})
-
 env = dotenv_values(".env")
 
 MODEL_NAME = 'model_v2'

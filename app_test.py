@@ -1,14 +1,25 @@
 import json
+from qdrant_client import QdrantClient
+from dotenv import dotenv_values
 import streamlit as st
 import pandas as pd # type: ignore
 from pycaret.clustering import load_model, predict_model  # type: ignore
 import plotly.express as px  # type: ignore
+
+st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon=None, theme={'base': 'dark'})
+
+env = dotenv_values(".env")
 
 MODEL_NAME = 'model_v2'
 
 DATA = 'welcome_survey_simple_v2.csv'
 
 CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v2.json'
+
+if 'QDRANT_URL' in st.secrets:
+    env['QDRANT_URL'] = st.secrets['QDRANT_URL']
+if 'QDRANT_API_KEY' in st.secrets:
+    env['QDRANT_API_KEY'] = st.secrets['QDRANT_API_KEY']
 
 @st.cache_data
 def get_model():
@@ -26,6 +37,13 @@ def get_all_participants():
     df_with_clusters = predict_model(model, data=all_df)
 
     return df_with_clusters
+
+@st.cache_resource
+def get_qdrant_clients():
+    return QdrantClient(
+    url=env["QDRANT_URL"], 
+    api_key=env["QDRANT_API_KEY"],
+)
 
 st.title('Znajdź znajomych')
 with st.sidebar:

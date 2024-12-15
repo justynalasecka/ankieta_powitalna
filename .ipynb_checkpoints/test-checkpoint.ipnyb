@@ -1,0 +1,7 @@
+import pandas as pd
+
+df = pd.read_csv('welcome_survey_simple_v1.csv', sep=';')
+df.head()
+
+df = pd.read_csv('welcome_survey_simple_v2.csv', sep=';')
+df.head()

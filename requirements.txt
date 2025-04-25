@@ -1,5 +1,4 @@
 pandas
-pycaret
 qdrant-client
 python-dotenv
 streamlit
